@@ -1,80 +1,74 @@
-Direct Forecast Dashboard Documentation
-======================================
+Streamlit Application Usage
+===========================
 
-Key Features
-------------
+This section provides a detailed guide on interacting with the user interface of the Predictive Maintenance AI Dashboard, covering both forecasting and model training workflows.
 
-Code Structure
---------------
+Accessing the Dashboard
+-----------------------
 
-Error Handling
---------------
-.. toctree::
-   :maxdepth: 2
-   :caption: Related Documentation:
-   
-   installation.rst
-   usage.rst
-   preprocessing.rst
-   modelstesting.rst
-   timeforecasting.rst
-   
-   modules.rst
+Once the application is running (see :doc:`installation`), open your web browser and navigate to `http://localhost:8501`.
 
-Overview
---------
-
-This Streamlit-based dashboard provides predictive maintenance capabilities using a Bidirectional LSTM (BiLSTM) deep learning model. It forecasts:
-
-* Remaining Useful Life (RUL) of a component by predicting when degradation will cross a failure threshold.
-* Multi-variable forecasts (degradation, temperature, maintenance time) for component health monitoring.
-
-For installation instructions, see :doc:`installation`. For usage examples, refer to :doc:`usage`.
-
-Key Features
------------
-
-* **Two Modes**:
-    * Live RUL Prediction (see :doc:`timeforecasting`)
-    * Component Health Forecasting
-* **Interactive Visualization**: Uses Plotly for dynamic, zoomable charts.
-* **Scalable Input Handling**: Accepts CSV files with historical sensor data (details in :doc:`preprocessing`).
-* **Caching for Performance**: Optimizes model loading and data processing.
-
-Code Structure
--------------
-
-1. **App Configuration** (``st.set_page_config``)
-    * Sets up the dashboard layout with a title ("Direct Forecast Dashboard") and an icon (⚡).
-
-2. **Model & Configuration** 
-    * See model architecture details in :doc:`modules`
-    * Testing results available in :doc:`modetesting1`
-
-3. **Cached Helper Functions**
-    * Implementation details in :doc:`utils`
-
-5. **Streamlit UI**
-    * **Sidebar Controls**
-        * Page Selection: Toggles between RUL Prediction and Component Health Forecasting.
-        * File Uploader: Accepts CSV files with historical data.
-        * Forecast Starting Point: Slider to select where the forecast begins.
-
-How to Use
+Navigation
 ----------
 
-See comprehensive usage guide in :doc:`usage`.
+The dashboard has three main pages, accessible via the "Navigation" radio buttons in the sidebar:
 
-Dependencies
-------------
+* **Welcome & User Guide:** Provides an introduction and high-level overview.
+* **Forecasting:** For making predictions with existing models.
+* **Train New Model:** For training custom models.
 
-* **Python Libraries**:
-    * Full list in :doc:`requirements.txt <requirements>`
-* **Model Files**:
-    * ``model_BiLSTM.pth`` (trained PyTorch model)
-    * ``main_scaler.joblib`` (feature scaler)
+Component & RUL Forecasting Page
+--------------------------------
 
-Error Handling
--------------
+This page allows you to make predictions using pre-trained models.
 
-* For troubleshooting, see :doc:`usage` and :doc:`utils`.
+1.  **Select Pre-Trained Model:**
+    * In the sidebar under "Forecast Settings", use the dropdown to choose from available model types: `BiLSTM`, `BiGRU`, or `Conv1D_LSTM`.
+2.  **Upload Your Data (CSV):**
+    * Click the "Upload Your Data (CSV)" button in the sidebar and select a CSV file containing your component's historical data.
+    * A preview of the uploaded data will be displayed in the main area under "Uploaded Data Preview".
+3.  **Select Forecast Starting Point:**
+    * Use the "Select Forecast Starting Point (Time Step)" slider in the sidebar. This determines the last historical data point used as input for the forecast.
+    * The corresponding date of the selected point will be displayed below the slider (e.g., "Forecast will start after: 2023-01-01").
+4.  **Select Targets to Plot:**
+    * Use the "Select Targets to Plot" multi-select dropdown to choose which health indicators you want to visualize in the forecast plots. Options include: `degradation`, `temperature_estimated`, `time_since_last_maintenance`.
+5.  **Run Forecast:**
+    * Click the "Run Forecast" button in the sidebar.
+    * A spinner will indicate that the model is loading and forecasting.
+    * Upon completion, a "Forecast Complete!" success message will appear.
+    * **Derived RUL:** The predicted Remaining Useful Life (RUL) will be displayed in cycles. If the degradation threshold (0.66) is not reached within the forecast window, it will indicate "> 1200 cycles".
+    * **Forecast Plots:** Interactive Plotly charts will visualize the historical data and the forecasted values for each selected target.
+        * A **green dotted vertical line** marks the forecast start date.
+        * An **orange dotted horizontal line** indicates the degradation failure threshold (0.66).
+        * If RUL is predicted, a **purple 'x' marker** will show the exact predicted failure point on the degradation plot.
+
+Train a New Model Page
+----------------------
+
+This page allows you to train a custom forecasting model using your own dataset.
+
+1.  **Upload Your Training Data (CSV):**
+    * Click the "Upload Your Training Data (CSV)" button in the sidebar.
+    * A preview of your uploaded training data will appear.
+2.  **Model Architecture:**
+    * Under "Model Architecture" in the sidebar, select the deep learning architecture for your new model (e.g., `BiLSTM`, `BiGRU`, `Conv1D_LSTM`).
+3.  **File Saving:**
+    * Enter a "name for your new model" in the text input field (e.g., `custom_model`). This name will be used for the downloadable `.pth` and `.joblib` files.
+4.  **Hyperparameters:**
+    * Adjust the training settings under "Hyperparameters" in the sidebar:
+        * **Window Size:** Defines the number of historical time steps used as input sequence length for the model.
+        * **Future Steps:** Specifies the number of future time steps the model will predict.
+        * **Epochs:** The total number of passes over the entire training dataset.
+        * **Learning Rate:** The step size used by the optimizer during training.
+5.  **Start Training:**
+    * Click the "Start Training" button in the sidebar.
+    * A status message will show the current epoch and loss.
+    * A "Live Training Progress" plot will display the training and validation loss curves in real-time.
+    * Upon completion, a "Training complete!" success message will appear.
+6.  **Download & Use Your New Model:**
+    * After successful training, "Download Model (.pth)" and "Download Scaler (.joblib)" buttons will become available. Click these to save the trained model weights and the fitted data scaler to your local machine.
+    * These downloaded files can be placed in your `Dashboard_App` directory to be loaded by the "Forecasting" page.
+7.  **Test Your New Model (Optional):**
+    * Upload a "Test Data (CSV)" file.
+    * Use the "Select Forecast Start Point (Time Step)" slider to define where to start testing the forecast with your new model.
+    * Click "Forecast with New Model" to see the RUL and forecast plots generated by your custom-trained model.

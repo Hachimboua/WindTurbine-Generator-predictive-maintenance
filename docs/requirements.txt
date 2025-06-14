@@ -1,4 +1,4 @@
-# requirements.txt
+# docs/requirements.txt
 # Python dependencies for building Read the Docs documentation
 sphinx
 sphinx-rtd-theme
@@ -7,5 +7,6 @@ pandas
 numpy
 plotly
 torch
-scikit-learn # 'sklearn' is typically installed via 'scikit-learn'
+scikit-learn # 'sklearn' is installed via 'scikit-learn'
 joblib
+streamlit # <-- MAKE SURE THIS IS PRESENT AND UNCOMMENTED

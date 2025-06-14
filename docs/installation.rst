@@ -1,103 +1,69 @@
-.. _installation:
+Installation
+============
 
-Installation Guide
-=================
+This section will guide you through setting up and running the Predictive Maintenance AI Dashboard on your local machine.
 
-Description
--------------------
+Prerequisites
+-------------
 
+Before you begin, ensure you have the following installed:
 
-This guide covers how to install Controlit and its dependencies.
+* **Python 3.8+**: It's recommended to use a virtual environment.
+* **pip**: Python's package installer, usually included with Python.
+* **Git**: For cloning the repository (optional, you can also download the zip).
 
-System Requirements
--------------------
+Setup Steps
+-----------
 
-* Python 3.8 or higher
-* pip 20.0 or higher
-* (Optional) CUDA 11.1+ for GPU acceleration
+1.  **Clone the repository (or download):**
 
-Installation Methods
--------------------
+    If using Git:
 
-1. Using pip (recommended)
--------------------------
+    .. code-block:: bash
 
-.. code-block:: bash
+        git clone <your-repository-url>
+        cd <your-repository-name> # Navigate into your project directory
 
-   # Create and activate virtual environment (recommended)
-   python -m venv controlit-env
-   source controlit-env/bin/activate  # Linux/MacOS
-   controlit-env\Scripts\activate    # Windows
+    If downloading, extract the zip file and navigate into the project's root directory.
 
-   # Install Controlit package
-   pip install controlit
+2.  **Create a virtual environment:**
 
-2. From source
---------------
+    .. code-block:: bash
 
-.. code-block:: bash
+        python -m venv venv
 
-   # Clone the repository
-   git clone https://github.com/yourusername/controlit.git
-   cd controlit
+3.  **Activate the virtual environment:**
 
-   # Install with dependencies
-   pip install -r requirements.txt
-   pip install -e .
+    * **On Windows:**
 
-Dependencies
-------------
+        .. code-block:: bash
 
-Core requirements:
+            .\venv\Scripts\activate
 
-* NumPy >=1.20.0
-* Pandas >=1.3.0
-* PyTorch >=1.10.0
-* Streamlit >=1.0.0
+    * **On macOS/Linux:**
 
-Optional dependencies:
+        .. code-block:: bash
 
-* CUDA Toolkit (for GPU support)
-* Nvidia drivers (for GPU support)
+            source venv/bin/activate
 
-Verifying Installation
----------------------
+4.  **Install dependencies:**
 
-Run the test command to verify installation:
+    Navigate to your project's root directory where `requirements.txt` is located (or where you will create it).
+    *(Note: Ensure `torch` is installed correctly for your system, especially if you plan to use GPU. For CPU-only, `pip install torch` is usually sufficient.)*
+
+    .. code-block:: bash
+
+        pip install -r requirements.txt
+
+    **Important:** You need to have some pre-trained models and a scaler in the `Dashboard_App` subdirectory for the "Forecasting" page to work initially. If you don't have these, you'll need to train one first using the "Train New Model" page or acquire them separately. The expected paths are `Dashboard_App/model_BiLSTM.pth`, `Dashboard_App/model_BiGRU.pth`, `Dashboard_App/model_Conv1D_LSTM.pth` and `Dashboard_App/main_scaler.joblib`.
+
+Running the Application
+-----------------------
+
+Once all dependencies are installed, you can run the Streamlit application:
 
 .. code-block:: bash
 
-   python -c "import controlit; print(controlit.__version__)"
+    streamlit run Dashboard_App/app.py
 
-Troubleshooting
----------------
-
-Common issues:
-
-1. **Permission errors**:
-   Use ``--user`` flag or virtual environments
-
-   .. code-block:: bash
-
-      pip install --user controlit
-
-2. **Missing dependencies**:
-   Manually install required packages
-
-   .. code-block:: bash
-
-      pip install numpy pandas torch
-
-3. **CUDA issues**:
-   Install PyTorch with CUDA support:
-
-   .. code-block:: bash
-
-      pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
-
-Next Steps
-----------
-
-* :doc:`Get started with basic usage <usage>`
-* :doc:`Learn about preprocessing data <preprocessing>`
-* :doc:`Explore time series forecasting <timeforecasting>`
+This command will open the application in your default web browser (usually at `http://localhost:8501`).

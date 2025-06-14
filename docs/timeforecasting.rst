@@ -1,80 +1,41 @@
-Time Series Forecasting Utilities
-=================================
+Time Series Forecasting Logic
+=============================
 
-Overview
-------------------
+This section describes the core logic behind generating forecasts using the trained models.
 
-This module provides utilities for loading, preprocessing, forecasting, and plotting time series data using a BiLSTM model.
+The `run_direct_forecast` Function
+----------------------------------
 
-Function Reference
-------------------
+The `run_direct_forecast` function is responsible for taking a historical window of data, feeding it through the loaded model, and producing future predictions.
 
-.. autofunction:: load_data
+**Inputs:**
 
-.. autofunction:: preprocess_data
+* **`model`**: The loaded PyTorch deep learning model (e.g., BiLSTM, BiGRU).
+* **`scaler`**: The fitted `StandardScaler` used to normalize the input data and inverse-transform the predictions.
+* **`history_window_df`**: A Pandas DataFrame containing the recent historical data points (features) that will be used as input to the model. Its length is determined by `window_size`.
+* **`forecast_start_date`**: The `pandas.Timestamp` object representing the date immediately preceding the start of the forecast period.
 
-.. autofunction:: load_model
+**Process:**
 
-.. autofunction:: predict
+1.  **Extract Numerical History:** Only numerical columns from `history_window_df` are selected, as the 'Date' column is not a feature for the model.
+2.  **Align Features:** The historical numerical data is re-indexed to ensure its columns match the `feature_names_in_` of the `scaler`. This is crucial for consistent input to the model. Missing columns are filled with 0.
+3.  **Scale Input:** The historical data is transformed using the `scaler` to match the scale the model was trained on.
+4.  **Prepare Input Tensor:** The scaled NumPy array is converted into a PyTorch tensor and reshaped (`unsqueeze(0)`) to add a batch dimension, making it suitable for the model's input layer.
+5.  **Model Prediction:** The input tensor is passed through the `model` in evaluation mode (`torch.no_grad()`) to obtain a flattened prediction of future values.
+6.  **Reshape Prediction:** The flattened prediction is reshaped back into a 2D array, where each row corresponds to a future time step and columns correspond to the target variables (`degradation`, `temperature_estimated`, `time_since_last_maintenance`).
+7.  **Inverse Transform Prediction:** The scaled predictions are inverse-transformed using the `scaler` to return them to their original, interpretable scales.
+8.  **Create Forecast DataFrame:** A new Pandas DataFrame (`forecast_df`) is created from the inverse-transformed predictions, with columns assigned to the target variables.
+9.  **Generate Future Dates:** A 'Date' column is added to `forecast_df`, generating a series of future dates starting from `forecast_start_date` based on the assumed daily frequency of the data.
 
-.. autofunction:: inverse_transform
+**Output:**
 
-.. autofunction:: plot_forecast
+* A Pandas DataFrame (`forecast_df`) containing the unscaled, forecasted values for `degradation`, `temperature_estimated`, and `time_since_last_maintenance`, along with their corresponding future `Date` values.
 
+Remaining Useful Life (RUL) Calculation
+--------------------------------------
 
-Function Details
-----------------
+After the `degradation` forecast is obtained, the Remaining Useful Life (RUL) is calculated. This is defined as the number of future cycles (or days in our current date setup) until the predicted degradation value reaches or exceeds a predefined failure threshold.
 
-.. function:: load_data(filepath: str) -> pandas.DataFrame
-
-   Load time series data from a CSV file.
-
-   :param filepath: Path to the CSV file.
-   :return: Loaded data as a pandas DataFrame.
-
-.. function:: preprocess_data(data: pandas.DataFrame, feature_cols: list[str], scaler_path: str) -> numpy.ndarray
-
-   Standardize input data using pre-fitted scaler.
-
-   :param data: Raw input data as a DataFrame.
-   :param feature_cols: List of feature column names to include.
-   :param scaler_path: Path to the saved scaler (.pkl or .joblib file).
-   :return: Scaled feature matrix as a NumPy array.
-
-.. function:: load_model(model_path: str, input_size: int, hidden_size: int, num_layers: int, output_size: int, device: str) -> torch.nn.Module
-
-   Load a trained BiLSTM model for inference.
-
-   :param model_path: Path to the saved model weights.
-   :param input_size: Number of input features.
-   :param hidden_size: Hidden layer size.
-   :param num_layers: Number of LSTM layers.
-   :param output_size: Number of output predictions.
-   :param device: Device to load model on ('cpu' or 'cuda').
-   :return: Loaded PyTorch model.
-
-.. function:: predict(model: torch.nn.Module, input_seq: numpy.ndarray, device: str) -> numpy.ndarray
-
-   Run inference on the input sequence using the BiLSTM model.
-
-   :param model: Trained PyTorch model.
-   :param input_seq: Preprocessed and windowed input sequence.
-   :param device: Device for inference.
-   :return: Model predictions as NumPy array.
-
-.. function:: inverse_transform(predictions: numpy.ndarray, scaler_path: str, target_col_index: int) -> numpy.ndarray
-
-   Invert the scaling transformation on model predictions.
-
-   :param predictions: Scaled predictions.
-   :param scaler_path: Path to the saved scaler.
-   :param target_col_index: Index of the target variable to inverse-transform.
-   :return: Inverse-transformed predictions.
-
-.. function:: plot_forecast(true_values: numpy.ndarray, predicted_values: numpy.ndarray, title: str)
-
-   Plot true vs. predicted values.
-
-   :param true_values: Ground truth RUL values.
-   :param predicted_values: Forecasted RUL values.
-   :param title: Title for the plot.
+* **Threshold:** The failure threshold for degradation is set at **0.66**.
+* **Calculation:** `np.where(forecasted_degradation >= 0.66)[0][0]` finds the index of the first point in the `degradation` forecast where the value is greater than or equal to 0.66. This index directly corresponds to the RUL in cycles (or days).
+* **Interpretation:** If the threshold is not met within the entire forecast window (1200 steps), the RUL is reported as `> 1200 cycles`.

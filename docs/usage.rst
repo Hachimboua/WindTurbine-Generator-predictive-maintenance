@@ -1,47 +1,29 @@
-Usage
-=====
+Usage Guide
+===========
 
+The Predictive Maintenance AI Dashboard provides two primary functionalities:
+forecasting with pre-trained models and training new custom models.
 
-Overview
------------------------
+Forecasting Component Health and RUL
+-----------------------------------
 
-This section explains how to run the project and interact with it using your webcam.
+To get started with forecasting:
 
-Running the Application
------------------------
+1.  **Select a Pre-Trained Model:** Choose the model architecture (e.g., BiLSTM, BiGRU) from the sidebar.
+2.  **Upload Your Data:** Provide your historical sensor or operational data in CSV format.
+3.  **Define Forecast Start:** Specify the point in your historical data from which the prediction should begin.
+4.  **Visualize Results:** Review the interactive plots displaying predicted degradation, temperature, and maintenance intervals, along with the derived Remaining Useful Life (RUL).
 
-To start the application, open your terminal and run:
+Detailed steps for the forecasting interface are available in :doc:`app`.
 
-.. code-block:: bash
+Training a New Model
+--------------------
 
-   python app.py
+If you wish to build a custom model tailored to your specific data:
 
-Make sure your webcam is connected and accessible.
+1.  **Upload Training Data:** Supply your dataset in CSV format.
+2.  **Configure Training Parameters:** Adjust hyperparameters such as window size, future steps, epochs, and learning rate.
+3.  **Start Training:** Initiate the model training process.
+4.  **Download and Test:** Upon completion, you can download the trained model and scaler files, and immediately test the new model with a separate dataset.
 
-Expected Behavior
------------------
-
-- The webcam window will open.
-- The program will attempt to detect the professor's face using facial recognition.
-- Once the professor's face is detected:
-  
-  - You can perform hand gestures (e.g., raise left or right hand) to trigger specific interactions.
-  - For example, gestures might control slides, trigger commands, or interact with software.
-
-Controls and Gestures
----------------------
-
-Currently supported gestures:
-
-- **Right Hand Raised** – Next slide / command.
-- **Left Hand Raised** – Previous slide / command.
-
-You can extend or customize these gestures in the source code.
-
-Notes
------
-
-- The face encoding for the professor must be stored and loaded correctly (`professor.jpg` by default).
-- Make sure lighting is sufficient for face and hand detection.
-- For best results, run the application in a well-lit, uncluttered environment.
-
+Detailed steps for the model training interface are available in :doc:`app`.

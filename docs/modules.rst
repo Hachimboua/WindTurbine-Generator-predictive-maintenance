@@ -1,30 +1,11 @@
-hand-gesture-recognition-mediapipe-main
-=======================================
+API Documentation
+=================
 
 .. toctree::
    :maxdepth: 4
 
-   app
-   installation
-   modelstesting
-   preprocessing
-   timeforecasting
-
-.. automodule:: forecast.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. currentmodule:: app
-
-.. autofunction:: load_data
-
-.. autofunction:: preprocess_data
-
-.. autofunction:: load_model
-
-.. autofunction:: predict
-
-.. autofunction:: inverse_transform
-
-.. autofunction:: plot_forecast
+   Dashboard_App
+   # If you also have a 'forecast' top-level package that contains 'utils'
+   # and you want to document it, uncomment the line below and ensure
+   # its path is added in conf.py
+   # forecast
