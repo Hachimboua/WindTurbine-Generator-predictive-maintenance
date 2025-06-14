@@ -1,0 +1,11 @@
+# requirements.txt
+
+streamlit
+pandas
+numpy
+torch
+scikit-learn
+joblib
+plotly
+scipy # Add this as well
+matplotlib # If your app uses it
