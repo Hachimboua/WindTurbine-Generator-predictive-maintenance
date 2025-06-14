@@ -1,0 +1,11 @@
+# requirements.txt
+# Python dependencies for building Read the Docs documentation
+sphinx
+sphinx-rtd-theme
+myst-parser
+pandas
+numpy
+plotly
+torch
+scikit-learn # 'sklearn' is typically installed via 'scikit-learn'
+joblib
