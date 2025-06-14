@@ -17,8 +17,8 @@ predictive maintenance.
    :maxdepth: 2
    :caption: Contents:
 
-   problem_statement # NEW: Explains the problem from data acquisition to simulation and need for synthetic data
-   data_generation   # NEW: Explains the synthetic data generation based on simulation
+   problem_statement 
+   data_generation  
    introduction
    installation
    usage
