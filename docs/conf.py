@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.abspath('../NoteBook&DATA'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Wind Turbine Predictive Maintenance: From Real Data to AI Forecast' # Updated title
+project = 'Wind Turbine Predictive Maintenance: Dashboard' # Updated title
 copyright = '2023, Your Name/Team Name' # Update this
 author = 'Your Name/Team Name' # Update this
 release = '0.1.0' # Your project version

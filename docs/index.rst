@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Wind Turbine Predictive Maintenance: From Real Data to AI Forecast
-==================================================================
+Wind Turbine Predictive Maintenance: Dashboard
+==============================================
 
 This documentation provides comprehensive details on the Predictive Maintenance AI Dashboard,
 a Streamlit application for forecasting component health and Remaining Useful Life (RUL)
