@@ -6,5 +6,5 @@ API Documentation
    :maxdepth: 4
 
    Dashboard_App
-   notebook_and_data # This should now be here, automatically added by apidoc
+   NoteBookDATA # This should now be here, automatically added by apidoc
    # ... other entries if any
