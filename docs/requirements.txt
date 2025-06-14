@@ -9,4 +9,5 @@ plotly
 torch
 scikit-learn # 'sklearn' is installed via 'scikit-learn'
 joblib
-streamlit # <-- MAKE SURE THIS IS PRESENT AND UNCOMMENTED
+streamlit
+matplotlib  # <-- MAKE SURE THIS IS PRESENT AND UNCOMMENTED
