@@ -49,7 +49,7 @@ _Example of forecasting temperature and other features for the next 100 time ste
 ```bash
 FINAL_PROJECT/
 ├── README.md # This file
-├── NoteBook&DATA/
+├── NoteBookDATA/
 │ ├── DATA/
 │ │ ├── traindata.csv
 │ │ └── testdata.csv
@@ -82,7 +82,7 @@ pip install pandas numpy scikit-learn torch matplotlib streamlit plotly joblib j
 Navigate to the notebook directory:
 
 ```bash
-cd NoteBook&DATA
+cd NoteBookDATA
 ```
 Launch Jupyter:
 ```bash
