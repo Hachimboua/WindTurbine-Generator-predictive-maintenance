@@ -32,7 +32,7 @@ The primary goal is to **predict the Remaining Useful Life (RUL)** of wind turbi
 
 _Visual showing degradation curve with predicted RUL point_  
 **Image Placeholder:**  
-![RUL Forecast Example](./images/rul_forecast.png)
+![RUL Forecast Example](_static/images/rul_forecast.png)
 
 ---
 
@@ -40,8 +40,8 @@ _Visual showing degradation curve with predicted RUL point_
 
 _Example of forecasting temperature and other features for the next 100 time steps_  
 **Image Placeholder:**  
-![Forecasting Window Example For Degradataion](./images/degradation_forecast.png)
-![Forecasting Window Example For Temperature](./images/temperature_forecast.png)
+![Forecasting Window Example For Degradataion](_static/images/degradation_forecast.png)
+![Forecasting Window Example For Temperature](_static/images/temperature_forecast.png)
 
 ---
 

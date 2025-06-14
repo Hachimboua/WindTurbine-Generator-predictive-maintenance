@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath('..')) # Path to your project root (parent of
 sys.path.insert(0, os.path.abspath('../Dashboard_App')) # Path directly to Dashboard_App
 
 # Add path to NoteBook&DATA for literalinclude, and potentially autodoc if you make it a package
-sys.path.insert(0, os.path.abspath('../NoteBook&DATA'))
+sys.path.insert(0, os.path.abspath('../NoteBookDATA'))
 
 
 # -- Project information -----------------------------------------------------

@@ -32,7 +32,7 @@ The simulator integrates:
 
 Below is the Python code for the `WindTurbineDegradationSimulator` class:
 
-.. literalinclude:: ../NoteBook&DATA/WindTurbineDegradationSimulator.py
+.. literalinclude:: ../NoteBookDATA/WindTurbineDegradationSimulator.py
    :language: python
    :linenos
    :caption: WindTurbineDegradationSimulator.py
